@@ -323,7 +323,13 @@ public class MiscListener implements Listener {
     public static void heal(Player player) {
         player.getInventory().clear();
         player.getActivePotionEffects().forEach(pe -> player.removePotionEffect(pe.getType()));
-        player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+        Attribute maxHealthAttr;
+        try {
+            maxHealthAttr = Attribute.valueOf("MAX_HEALTH");
+        } catch (IllegalArgumentException e) {
+            maxHealthAttr = Attribute.valueOf("GENERIC_MAX_HEALTH");
+        }
+        player.setHealth(player.getAttribute(maxHealthAttr).getValue());
         player.setFoodLevel(20);
         player.setSaturation(0);
         player.setFireTicks(0);
